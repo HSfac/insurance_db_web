@@ -126,10 +126,10 @@ export default function CustomerList() {
     return new Date(dateString).toLocaleDateString('ko-KR')
   }
 
-  const getInsuranceType = (customer: CustomerWithInsurance) => {
+  const getInsuranceType = (customer: CustomerWithInsurance): string => {
     if (customer.insurance_info && customer.insurance_info.length > 0) {
       const desired = customer.insurance_info[0].desired_insurance
-      return desired?.type || '미지정'
+      return (desired?.type as string) || '미지정'
     }
     return '미지정'
   }
