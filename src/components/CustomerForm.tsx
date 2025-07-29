@@ -75,8 +75,8 @@ export default function CustomerForm() {
         .from('insurance_info')
         .insert({
           customer_id: customerData.id,
-          current_insurance: data.current_insurance ? JSON.parse(data.current_insurance) : null,
-          desired_insurance: JSON.parse(data.desired_insurance),
+          current_insurance: data.current_insurance ? JSON.parse(data.current_insurance as string) : null,
+          desired_insurance: JSON.parse(data.desired_insurance as string),
           coverage_amount: data.coverage_amount,
           coverage_period: data.coverage_period,
           notes: data.notes

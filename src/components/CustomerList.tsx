@@ -107,8 +107,7 @@ export default function CustomerList() {
       직업: customer.occupation,
       연소득: customer.income,
       등록일: new Date(customer.created_at).toLocaleDateString('ko-KR'),
-      보험종류: customer.insurance_info[0]?.desired_insurance ? 
-        JSON.parse(customer.insurance_info[0].desired_insurance)?.type : '',
+      보험종류: customer.insurance_info[0]?.desired_insurance?.type || '',
       보장금액: customer.insurance_info[0]?.coverage_amount || '',
       보장기간: customer.insurance_info[0]?.coverage_period || ''
     }))
@@ -129,12 +128,8 @@ export default function CustomerList() {
 
   const getInsuranceType = (customer: CustomerWithInsurance) => {
     if (customer.insurance_info && customer.insurance_info.length > 0) {
-      try {
-        const desired = JSON.parse(customer.insurance_info[0].desired_insurance)
-        return desired.type || '미지정'
-      } catch {
-        return '미지정'
-      }
+      const desired = customer.insurance_info[0].desired_insurance
+      return desired?.type || '미지정'
     }
     return '미지정'
   }

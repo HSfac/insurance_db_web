@@ -128,13 +128,9 @@ export default function Dashboard() {
       // 보험 종류별 통계
       const insuranceTypes: { [key: string]: number } = {}
       insuranceData?.forEach(insurance => {
-        try {
-          const desired = JSON.parse(insurance.desired_insurance)
-          const type = desired.type || '미지정'
-          insuranceTypes[type] = (insuranceTypes[type] || 0) + 1
-        } catch {
-          insuranceTypes['미지정'] = (insuranceTypes['미지정'] || 0) + 1
-        }
+        const desired = insurance.desired_insurance
+        const type = desired?.type || '미지정'
+        insuranceTypes[type] = (insuranceTypes[type] || 0) + 1
       })
 
       const insuranceTypesArray = Object.entries(insuranceTypes).map(([type, count]) => ({
