@@ -12,13 +12,18 @@ import { supabase, type Customer, type InsuranceCompany, type Transmission } fro
 import { toast } from 'sonner'
 
 interface CustomerWithInsurance extends Customer {
-  insurance_info: any[]
+  insurance_info: Array<Record<string, unknown>>
+}
+
+interface TransmissionWithRelations extends Transmission {
+  customers?: { name: string }
+  insurance_companies?: { name: string }
 }
 
 export default function TransmissionManager() {
   const [customers, setCustomers] = useState<CustomerWithInsurance[]>([])
   const [companies, setCompanies] = useState<InsuranceCompany[]>([])
-  const [transmissions, setTransmissions] = useState<Transmission[]>([])
+  const [transmissions, setTransmissions] = useState<TransmissionWithRelations[]>([])
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([])
   const [selectedCompany, setSelectedCompany] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
@@ -65,7 +70,7 @@ export default function TransmissionManager() {
 
       setCustomers(customersData as CustomerWithInsurance[] || [])
       setCompanies(companiesData || [])
-      setTransmissions(transmissionsData || [])
+      setTransmissions(transmissionsData as TransmissionWithRelations[] || [])
     } catch (error) {
       console.error('Error fetching data:', error)
       toast.error('데이터를 불러오는데 실패했습니다.')
@@ -278,7 +283,7 @@ export default function TransmissionManager() {
                       <TableCell>
                         {customer.insurance_info[0] ? (
                           <Badge variant="outline">
-                            {JSON.parse(customer.insurance_info[0].desired_insurance)?.type || '미지정'}
+                            {(customer.insurance_info[0].desired_insurance as { type?: string })?.type || '미지정'}
                           </Badge>
                         ) : (
                           <Badge variant="secondary">미지정</Badge>
@@ -328,17 +333,17 @@ export default function TransmissionManager() {
                   transmissions.map((transmission) => (
                     <TableRow key={transmission.id}>
                       <TableCell className="font-medium">
-                        {(transmission as any).customers?.name || '알 수 없음'}
+                        {transmission.customers?.name || '알 수 없음'}
                       </TableCell>
                       <TableCell>
-                        {(transmission as any).insurance_companies?.name || '알 수 없음'}
+                        {transmission.insurance_companies?.name || '알 수 없음'}
                       </TableCell>
                       <TableCell>{getStatusBadge(transmission.status)}</TableCell>
                       <TableCell>{formatDate(transmission.transmitted_at)}</TableCell>
                       <TableCell>
                         {transmission.response_data && (
                           <div className="text-xs">
-                            {(transmission.response_data as any).message || '응답 없음'}
+                            {(transmission.response_data as { message?: string }).message || '응답 없음'}
                           </div>
                         )}
                       </TableCell>

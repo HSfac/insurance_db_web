@@ -41,8 +41,7 @@ export default function CustomerForm() {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
-    watch
+    setValue
   } = useForm<CustomerFormData>({
     resolver: zodResolver(customerSchema)
   })

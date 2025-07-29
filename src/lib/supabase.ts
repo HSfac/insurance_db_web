@@ -25,8 +25,8 @@ export interface Customer {
 export interface InsuranceInfo {
   id: string
   customer_id: string
-  current_insurance: any
-  desired_insurance: any
+  current_insurance: Record<string, unknown> | null
+  desired_insurance: Record<string, unknown>
   coverage_amount: number
   coverage_period: number
   notes: string
@@ -46,8 +46,8 @@ export interface Transmission {
   customer_id: string
   company_id: string
   status: 'pending' | 'processing' | 'completed' | 'failed'
-  transmitted_data: any
-  response_data: any
+  transmitted_data: Record<string, unknown>
+  response_data: Record<string, unknown>
   transmitted_by: string
   transmitted_at: string
 } 
