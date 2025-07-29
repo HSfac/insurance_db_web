@@ -17,9 +17,7 @@ import { toast } from 'sonner'
 const customerSchema = z.object({
   name: z.string().min(2, '이름은 2글자 이상이어야 합니다'),
   birth_date: z.string().min(1, '생년월일을 입력해주세요'),
-  gender: z.enum(['male', 'female'], {
-    errorMap: () => ({ message: '성별을 선택해주세요' })
-  }),
+  gender: z.enum(['male', 'female']),
   phone: z.string().min(10, '올바른 전화번호를 입력해주세요'),
   email: z.string().email('올바른 이메일 형식이 아닙니다'),
   address: z.string().min(5, '주소를 입력해주세요'),
